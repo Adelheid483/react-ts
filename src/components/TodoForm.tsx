@@ -1,20 +1,16 @@
 import React, {useRef} from 'react';
+import {ITodoFormProps} from "../interfacesAndTypes";
 
-interface TodoFormProps {
-    addTask(title: string): void,
-}
-
-export const TodoForm: React.FC<TodoFormProps> = (props) => {
+export const TodoForm: React.FC<ITodoFormProps> = (props) => {
 
     const ref = useRef<HTMLInputElement>(null);
 
-    const onKeyPressHandler = (event: any) => {
+    const onKeyPressHandler = (event: React.KeyboardEvent) => { // need to read more about type parameters in TS
         if (event.key === 'Enter') {
-            props.addTask(ref.current!.value);
-            // ! тс выбрасывает ошибку, потому что первонач значение null, а мы говорим что уверены, что null не будет
+            props.addTodo(ref.current!.value); // write ! to say TS that here will be no error
             ref.current!.value = '';
         }
-    }
+    };
 
     return (
         <div className="input-field mt-2">

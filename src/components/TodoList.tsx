@@ -1,34 +1,28 @@
 import React from 'react';
-import {ITodo} from "../interfaces";
+import {TodoListProps} from "../interfacesAndTypes";
 
-type TodoListProps = {
-    todos: ITodo[],
-    toggleTask(id: number): void,
-    removeTask: (id: number) => void
-}
-
-export const TodoList: React.FC<TodoListProps> = ({todos, removeTask, toggleTask}) => {
+export const TodoList: React.FC<TodoListProps> = ({todos, removeTodo, toggleTodo}) => {
 
     if (todos.length === 0) {
         return <p className="center"> Nothing to do! </p>
     }
 
-    const removeHandler = (event: React.MouseEvent, id: number) => {
+    const removeHandler = (event: React.MouseEvent, id: number) => { // need to read more about type parameters in TS
         event.preventDefault();
-        removeTask(id);
-    }
+        removeTodo(id);
+    };
 
     return (
         <ul>
             {todos.map((todo) => {
-                const  classes = ['todo']
+                const  classes = ['todo'];
                 if (todo.completed) {
                     classes.push('completed')
                 }
                 return (
                    <li className={classes.join(' ')} key={todo.id}>
                        <label>
-                           <input type="checkbox" checked={todo.completed} onChange={toggleTask.bind(null, todo.id)}/>
+                           <input type="checkbox" checked={todo.completed} onChange={toggleTodo.bind(null, todo.id)}/>
                            <span>{todo.title}</span>
                            <i className="material-icons red-text" onClick={(event) => removeHandler(event, todo.id)}>delete</i>
                        </label>
